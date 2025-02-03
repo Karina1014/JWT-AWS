@@ -1,33 +1,23 @@
-# Usar una imagen oficial de Node.js para construir la app
-FROM node:18-alpine AS build
+# Use an official Node runtime as a parent image
+FROM node:16
 
-# Establecer el directorio de trabajo
-WORKDIR /usr/src/app
+# Set the working directory to /app
+WORKDIR /app
 
-# Copiar los archivos de dependencias
-COPY client/package*.json ./
+# Copy the package.json and package-lock.json to the working directory
+COPY ./package*.json ./
 
-# Instalar las dependencias del proyecto
+# Install the dependencies
 RUN npm install
 
-# Copiar el código fuente de la aplicación
-COPY client/ .
+# Copy the remaining application files to the working directory
+COPY . .
 
-# Establecer el argumento para el backend URL (lo recibe como un build argument)
-ARG VITE_BACKEND_URL
-ENV VITE_BACKEND_URL=$VITE_BACKEND_URL
-
-# Construir la aplicación para producción (generará la carpeta `build`)
+# Build the application
 RUN npm run build
 
-# Usar Nginx para servir la aplicación estática
-FROM nginx:alpine
+# Expose port 3000 for the application
+EXPOSE 3000
 
-# Copiar los archivos de la aplicación construida al contenedor Nginx
-COPY --from=build /usr/src/app/build /usr/share/nginx/html
-
-# Exponer el puerto en el que Nginx sirve la aplicación
-EXPOSE 80
-
-# Comando para arrancar Nginx en el contenedor
-CMD ["nginx", "-g", "daemon off;"]
+# Comando para iniciar la aplicación en desarrollo
+CMD [ "npm", "run", "dev" ]
