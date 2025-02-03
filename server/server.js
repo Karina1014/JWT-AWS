@@ -23,6 +23,8 @@ app.use(cors({ origin: allowedOrigins, credentials: true })); // Permitir cualqu
 
 // API Endpoints
 app.get('/', (req, res) => res.send("API working"));
+app.get('/hello', (req, res) => res.json({ message: "Hello World" })); // Ahora devuelve un JSON
+
 app.use('/api/auth', authRouter);
 app.use('/api/user', userRoutes);
 
