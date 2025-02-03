@@ -33,14 +33,8 @@ jobs:
     - name: Build and Push Server Docker image
       run: |
         docker build -f server/Dockerfile -t janneth5/servidor:latest \
-          --build-arg MONGODB_URI=${{ secrets.MONGODB_URI }} \
           --build-arg JWT_SECRET=${{ secrets.JWT_SECRET }} \
           --build-arg SMTP_USER=${{ secrets.SMTP_USER }} \
           --build-arg SMTP_PASS=${{ secrets.SMTP_PASS }} \
           --build-arg SENDER_EMAIL=${{ secrets.SENDER_EMAIL }} \
-          --build-arg REACT_APP_RDS_HOST=${{ secrets.REACT_APP_RDS_HOST }} \
-          --build-arg REACT_APP_RDS_PORT=${{ secrets.REACT_APP_RDS_PORT }} \
-          --build-arg REACT_APP_RDS_DATABASE=${{ secrets.REACT_APP_RDS_DATABASE }} \
-          --build-arg REACT_APP_RDS_USER=${{ secrets.REACT_APP_RDS_USER }} \
-          --build-arg REACT_APP_RDS_PASSWORD=${{ secrets.REACT_APP_RDS_PASSWORD }} .
         docker push janneth5/servidor:latest
