@@ -1,22 +1,21 @@
-# Use an official Node runtime as a parent image
-FROM node:16
+# Dockerfile
 
-# Set the working directory to /app
+# Establecer la imagen base de Node.js
+FROM node:18-alpine
+
+# Establecer el directorio de trabajo dentro del contenedor
 WORKDIR /app
 
-# Copy the package.json and package-lock.json to the working directory
-COPY ./package*.json ./
+# Copiar los archivos package.json y package-lock.json al contenedor
+COPY package*.json ./
 
-# Install the dependencies
+# Instalar las dependencias
 RUN npm install
 
-# Copy the remaining application files to the working directory
+# Copiar el resto del código de la aplicación
 COPY . .
 
-# Build the application
-RUN npm run build
-
-# Expose port 3000 for the application
+# Exponer el puerto en el que la aplicación corre (3000 por defecto)
 EXPOSE 3000
 
 # Comando para iniciar la aplicación en desarrollo
