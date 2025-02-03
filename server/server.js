@@ -14,7 +14,7 @@ connectDB();
 
 //conecta de de todas las maneras
 
-const allowedOrigins = ['http://localhost:5173'];  // Si estás trabajando localmente con Vite
+const allowedOrigins = process.env.ALLOWED_ORIGINS.split(',');
 
 
 app.use(express.json());
