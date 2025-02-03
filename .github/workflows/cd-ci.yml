@@ -37,13 +37,6 @@ jobs:
     needs: build-and-push
 
     steps:
-    - name: Test SSH Connection to EC2 (Client)
-      run: |
-        ssh -i ${{ secrets.CLIENT_SERVER_KEY }} -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_CLIENT_SERVER }} "echo 'SSH works!'"
-      env:
-        CLIENT_SERVER_KEY: ${{ secrets.CLIENT_SERVER_KEY }}
-        EC2_CLIENT_SERVER: ${{ secrets.EC2_CLIENT_SERVER }}
-
     - name: SSH into EC2 (Client) and deploy Docker container
       uses: appleboy/ssh-action@v1.2.0
       with:
@@ -75,17 +68,10 @@ jobs:
     needs: build-and-push
 
     steps:
-    - name: Test SSH Connection to EC2 (Server)
-      run: |
-        ssh -i ${{ secrets.SERVER_KEY }} -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_SERVER }} "echo 'SSH works!'"
-      env:
-        SERVER_KEY: ${{ secrets.SERVER_KEY }}
-        EC2_SERVER: ${{ secrets.EC2_SERVER }}
-
     - name: SSH into EC2 (Server) and deploy Docker container
       uses: appleboy/ssh-action@v1.2.0
       with:
-        host: ${{ secrets.EC2_SERVER }}
+        host: ${{ secrets.EC2_SERVER }}  # 35.175.218.250
         username: ubuntu
         key: ${{ secrets.SERVER_KEY }}
         script: |
