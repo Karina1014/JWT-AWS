@@ -76,6 +76,8 @@ jobs:
         key: ${{ secrets.SERVER_KEY }}
         script: |
           # Instalar Docker en la instancia EC2 (Servidor)
+          sudo su 
+          
           sudo apt update && sudo apt install -y docker.io
 
           # Hacer que Docker se inicie automáticamente
