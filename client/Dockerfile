@@ -1,22 +1,25 @@
-# Dockerfile
+# Construcción de la app con Node.js
+FROM node:18-alpine AS build
 
-# Establecer la imagen base de Node.js
-FROM node:18-alpine
-
-# Establecer el directorio de trabajo dentro del contenedor
 WORKDIR /app
 
-# Copiar los archivos package.json y package-lock.json al contenedor
-COPY package*.json ./
+# Copiar solo los archivos necesarios para instalar dependencias
+COPY package.json package-lock.json ./
+RUN npm install --frozen-lockfile
 
-# Instalar las dependencias
-RUN npm install
-
-# Copiar el resto del código de la aplicación
+# Copiar el resto del código y generar el build
 COPY . .
+RUN npm run build
 
-# Exponer el puerto en el que la aplicación corre (3000 por defecto)
-EXPOSE 3000
+# ----------------------------------------------
+# Fase final: Servir la app con Nginx
+FROM nginx:alpine
 
-# Comando para iniciar la aplicación en desarrollo
-CMD [ "npm", "run", "dev" ]
+# Copiar los archivos estáticos generados por Vite
+COPY --from=build /app/dist /usr/share/nginx/html
+
+# Exponer el puerto 80 (por defecto en Nginx)
+EXPOSE 80
+
+# Iniciar Nginx
+CMD ["nginx", "-g", "daemon off;"]
