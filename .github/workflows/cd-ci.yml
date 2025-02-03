@@ -41,7 +41,7 @@ jobs:
         uses: appleboy/ssh-action@v1.2.0
         with:
           host: ${{ secrets.EC2_CLIENT_SERVER }}  # IP de la instancia EC2 para el Cliente
-          username: ${{ secrets.EC2_USERNAME }}   # Usualmente 'ubuntu'
+          username:  ubuntu-latest  # Usualmente 'ubuntu'
           key: ${{ secrets.EC2_PRIVATE_KEY }}     # Clave privada para acceder a EC2
           script: |
             # Detener cualquier contenedor viejo
@@ -66,7 +66,7 @@ jobs:
         uses: appleboy/ssh-action@v1.2.0
         with:
           host: ${{ secrets.EC2_SERVER }}  # IP de la instancia EC2 para el Servidor
-          username: ${{ secrets.EC2_USERNAME }}   # Usualmente 'ubuntu'
+          username:  ubuntu-latest   # Usualmente 'ubuntu'
           key: ${{ secrets.EC2_PRIVATE_KEY }}     # Clave privada para acceder a EC2
           script: |
             # Detener cualquier contenedor viejo
